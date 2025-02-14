@@ -19,6 +19,9 @@ def login(request):
 def our_services(request):
     return render(request,'our_services.html')
 
+def terms_condition(request):
+    return render(request,'terms_condition.html')
+
 def index(request):
     return render(request,'index.html')
 
