@@ -21,4 +21,13 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index),
+    path('error404',404.html),
+    path('about',about.html),
+    path('contact',contact.html),
+    path('index',index.html),
+    path('open',open.html),
+    path('price',price.html),
+    path('services',service.html),
+    path('team',team.html),
+    path('testimonial',testimonial.html),
 ]
