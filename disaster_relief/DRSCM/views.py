@@ -1,11 +1,9 @@
 from django.shortcuts import render
 from .models import *
-
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.core.exceptions import ValidationError
-from datetime import datetime
 # Create your views here.
 def error404(request):
     return render(request,'pagenotfound.html')
@@ -31,6 +29,11 @@ def notifications(request):
 def logistics(request):
     return render(request,'logistics.html')
 
+
+from django.shortcuts import render, redirect
+from django.core.exceptions import ValidationError
+from .models import Disaster
+
 def add_disaster_details(request):
     if request.method == 'POST':
         try:
@@ -43,21 +46,14 @@ def add_disaster_details(request):
 
             # Set default status to 'active'
             status = 'active'
+
+            # If the user is an admin, allow them to modify the status
             if request.user.is_staff or request.user.is_superuser:
                 status = request.POST.get('status', 'active')
 
             # Validate required fields
             if not all([name, location, severity, description, reported_at]):
                 raise ValidationError("All fields are required.")
-
-            # Convert reported_at to datetime format
-            try:
-                reported_at = datetime.strptime(reported_at, '%Y-%m-%dT%H:%M')
-            except ValueError:
-                return render(request, 'report.html', {'error': 'Invalid date format. Please select a valid date & time.'})
-
-            # Debugging: Print received data in terminal
-            print(f"Saving Disaster Report: {name}, {location}, {severity}, {description}, {reported_at}, {status}")
 
             # Create and save the Disaster object
             data = Disaster.objects.create(
@@ -70,8 +66,8 @@ def add_disaster_details(request):
             )
             data.save()
 
-            # Redirect to home page after successful submission
-            return redirect('index')  # Make sure 'index' exists in urls.py
+            # Redirect to a success page or home page
+            return redirect('index.html')  # Replace 'index' with the name of your home URL
 
         except ValidationError as e:
             # Handle validation errors
@@ -79,7 +75,6 @@ def add_disaster_details(request):
 
         except Exception as e:
             # Handle other exceptions
-            print(f"Error: {e}")  # Print the error in console for debugging
             return render(request, 'report.html', {'error': 'An error occurred. Please try again.'})
 
     else:
