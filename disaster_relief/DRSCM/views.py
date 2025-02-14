@@ -67,7 +67,7 @@ def add_disaster_details(request):
             data.save()
 
             # Redirect to a success page or home page
-            return redirect('index.html')  # Replace 'index' with the name of your home URL
+            return redirect('index')  # Replace 'index' with the name of your home URL
 
         except ValidationError as e:
             # Handle validation errors
