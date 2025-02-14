@@ -32,9 +32,7 @@ urlpatterns = [
     path('add_disaster_details',views.add_disaster_details),
     path('login',views.login),
     path('our_services', views.our_services),
-<<<<<<< HEAD
     path('terms_condition',views.terms_condition),
-=======
     path('contact_us',views.contact_us),
->>>>>>> 97b5f0fbba38e6b366dd338376f0b20ef7639838
+
 ]
