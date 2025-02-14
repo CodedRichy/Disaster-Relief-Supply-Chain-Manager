@@ -29,6 +29,9 @@
 
     <!-- Template Stylesheet -->
     <link href='{% static "css/style.css" %}' rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 
 <body>
@@ -93,18 +96,18 @@
                         <p class="d-inline-block bg-dark text-primary py-1 px-4">Contact Us</p>
                         <h1 class="text-uppercase mb-4">Have Any Query? Please Contact Us!</h1>
                         <p class="mb-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a href="https://htmlcodex.com/contact-form">Download Now</a>.</p>
-                        <form>
+                        <form action="add_disaster_details">
                             <div class="mb-3">
-                                <label for="disasterType" class="form-label">Disaster Type</label>
-                                <input type="text" class="form-control" id="disasterType" placeholder="Enter disaster type">
-                            </div>
-                            <div class="mb-3">
-                                <label for="location" class="form-label">Location</label>
-                                <input type="text" class="form-control" id="location" placeholder="Enter location">
+                                <label for="name" class="form-label">Disaster</label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter disaster type">
                             </div>
                             <div class="mb-3">
                                 <label for="map" class="form-label">Select Location on Map</label>
                                 <div id="map" style="height: 300px; background-color: #ddd;"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Location</label>
+                                <input type="text" class="form-control" id="location" placeholder="Enter location">
                             </div>
                             <div class="mb-3">
                                 <label for="severity" class="form-label">Severity Level</label>
@@ -120,8 +123,8 @@
                                 <textarea class="form-control" id="description" rows="4" placeholder="Describe the disaster"></textarea>
                             </div>
                             <div class="mb-3">
-                                <label for="date" class="form-label">Date & Time</label>
-                                <input type="datetime-local" class="form-control" id="date">
+                                <label for="reported_at" class="form-label">Date & Time</label>
+                                <input type="datetime-local" class="form-control" id="reported_at">
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Submit Report</button>
                         </form>
@@ -206,25 +209,49 @@
     <script src='{% static "lib/easing/easing.min.js" %}'></script>
     <script src='{% static "lib/waypoints/waypoints.min.js" %}'></script>
     <script src='{% static "lib/owlcarousel/owl.carousel.min.js" %}'></script>
-    <script>
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 20, lng: 78 },
-                zoom: 5
-            });
-            var marker = new google.maps.Marker({
-                position: { lat: 20, lng: 78 },
-                map: map,
-                draggable: true
-            });
 
-            google.maps.event.addListener(map, 'click', function (event) {
-                marker.setPosition(event.latLng);
-                document.getElementById('location').value = event.latLng.lat() + ", " + event.latLng.lng();
-            });
-        }
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Initialize Leaflet Map -->
+    <script>
+    // Initialize the map
+    var map = L.map('map').setView([20, 78], 5); // Center on India
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Add a marker
+    var marker = L.marker([20, 78], { draggable: true }).addTo(map);
+
+    // Update location input when marker is dragged
+    marker.on('dragend', function (event) {
+        var latLng = marker.getLatLng();
+        document.getElementById('location').value = latLng.lat.toFixed(6) + ", " + latLng.lng.toFixed(6);
+    });
+
+    // Update location input when map is clicked
+    map.on('click', function (event) {
+        marker.setLatLng(event.latLng);
+        document.getElementById('location').value = event.latLng.lat.toFixed(6) + ", " + event.latLng.lng.toFixed(6);
+    });
+
+    // Update location input when map is double-clicked
+    map.on('dblclick', function (event) {
+        var latLng = event.latlng;
+        document.getElementById('location').value = latLng.lat.toFixed(6) + ", " + latLng.lng.toFixed(6);
+
+        // Move the marker to the double-clicked location (optional)
+        marker.setLatLng(latLng);
+    });
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+
+    #map {
+    height: 300px;
+    width: 100%;
+}
 
     <!-- Template Javascript -->
     <script src='{% static "js/main.js" %}'></script>
