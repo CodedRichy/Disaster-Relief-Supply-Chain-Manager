@@ -32,4 +32,5 @@ urlpatterns = [
     path('add_disaster_details',views.add_disaster_details),
     path('login',views.login),
     path('our_services', views.our_services),
+    path('contact_us',views.contact_us),
 ]
