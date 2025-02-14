@@ -13,17 +13,14 @@ def report(request):
 def index(request):
     return render(request,'index.html')
 
-def open(request):
-    return render(request,'open.html')
+def admin_dashboard(request):
+    return render(request,'admin_dashboard.html')
 
 def relief_centers(request):
     return render(request,'relief_centers.html')
 
-def service(request):
-    return render(request,'service.html')
-
-def team(request):
-    return render(request,'team.html')
+def notifications(request):
+    return render(request,'notifications.html')
 
 def logistics(request):
     return render(request,'logistics.html')
