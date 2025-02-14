@@ -20,6 +20,7 @@ class Disaster(models.Model):
     name = models.CharField(max_length=200)
     location = models.CharField(max_length=255)
     severity = models.IntegerField()  # Scale from 1-10
+    description = models.CharField(max_length=1000)
     reported_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=50, choices=[
         ('active', 'Active'),
