@@ -3,13 +3,13 @@
 {% load static %}
 <head>
     <meta charset="utf-8">
-    <title>Relief Center - Supply Management</title>
+    <title>HairCut - Hair Salon HTML Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link href='{% static "img/favicon.icon" %}' rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,17 +21,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href='{% static "lib/animate/animate.min.css"%}' rel="stylesheet">
-    <link href='{% static "lib/owlcarousel/assets/owl.carousel.min.css"%}' rel="stylesheet">
+    <link href='{% static "lib/animate/animate.min.css" %}' rel="stylesheet">
+    <link href='{% static "lib/owlcarousel/assets/owl.carousel.min.css" %}' rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href='{% static "css/bootstrap.min.css"%}' rel="stylesheet">
+    <link href='{% static "css/bootstrap.min.css" %}' rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href='{% static "css/style.css"%}' rel="stylesheet">
-
-    <!-- Leaflet CSS for Map -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link href='{% static "css/style.css" %}' rel="stylesheet">
 </head>
 
 <body>
@@ -45,7 +42,7 @@
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-secondary navbar-dark sticky-top py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
-        <a href="index.html" class="navbar-brand ms-4 ms-lg-0">
+        <a href="index" class="navbar-brand ms-4 ms-lg-0">
             <h1 class="mb-0 text-primary text-uppercase"><i class="fa fa-life-ring me-3"></i>RELIEFHUB</h1>
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -57,12 +54,12 @@
                 <a href="about" class="nav-item nav-link">About</a>
                 <a href="relief_centers" class="nav-item nav-link">Relief Centers</a>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu m-0">
-                        <a href="notifications" class="dropdown-item active">Notifications</a>
+                        <a href="notifications" class="dropdown-item">Notifications</a>
                         <a href="admin_dashboard" class="dropdown-item">Trash page</a>
-                        <a href="logistics" class="dropdown-item">Logistics</a>
-                        <a href="pagenotfound" class="dropdown-item">Error Page</a>
+                        <a href="logistics" class="dropdown-item">Testimonial</a>
+                        <a href="pagenotfound" class="dropdown-item">Error page</a>
                     </div>
                 </div>
                 <a href="report" class="nav-item nav-link">Report</a>
@@ -75,85 +72,50 @@
     <!-- Page Header Start -->
     <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center py-5">
-            <h1 class="display-3 text-white text-uppercase mb-3 animated slideInDown">Relief Center</h1>
+            <h1 class="display-3 text-white text-uppercase mb-3 animated slideInDown">Contact Us</h1>
             <nav aria-label="breadcrumb animated slideInDown">
                 <ol class="breadcrumb justify-content-center text-uppercase mb-0">
                     <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
                     <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
-                    <li class="breadcrumb-item text-primary active" aria-current="page">Relief Center</li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Contact</li>
                 </ol>
             </nav>
         </div>
     </div>
     <!-- Page Header End -->
 
-    <!-- Relief Center Content Start -->
+    <!-- Contact Start -->
     <div class="container-xxl py-5">
         <div class="container">
             <div class="row g-4">
-                <!-- Search Bar -->
-                <div class="col-lg-12">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Search for supplies or locations..." aria-label="Search" aria-describedby="basic-addon2">
-                        <button class="btn btn-primary" type="button">Search</button>
-                    </div>
-                </div>
-
-                <!-- Map Section -->
-                <div class="col-lg-6">
-                    <div class="h-100">
-                        <div id="map" style="height: 400px;"></div>
-                    </div>
-                </div>
-
-                <!-- Supplies Table -->
-                <div class="col-lg-6">
-                    <div class="bg-secondary h-100 d-flex flex-column justify-content-center p-5">
-                        <p class="d-inline-flex bg-dark text-primary py-1 px-4 me-auto">Supplies Table</p>
-                        <h1 class="text-uppercase mb-4">Pending & Approved Requests</h1>
-                        <div class="table-responsive">
-                            <table class="table table-dark table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Item</th>
-                                        <th scope="col">Quantity</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Example Data -->
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Water Bottles</td>
-                                        <td>100</td>
-                                        <td>Pending</td>
-                                        <td>2023-10-01</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Food Packets</td>
-                                        <td>50</td>
-                                        <td>Approved</td>
-                                        <td>2023-10-02</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Medical Kits</td>
-                                        <td>20</td>
-                                        <td>Pending</td>
-                                        <td>2023-10-03</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                <div class="col-lg-12 wow fadeIn" data-wow-delay="0.5s">
+                    <div class="bg-secondary p-5 text-center">
+                        <h3 class="text-uppercase text-primary mb-4">Contact Details</h3>
+                        <p class="mb-4">Feel free to reach out to us for any inquiries or assistance. We are here to help!</p>
+                        <div class="d-flex align-items-center justify-content-center mb-4">
+                            <div class="btn-square bg-dark flex-shrink-0 me-3">
+                                <span class="fa fa-map-marker-alt text-primary"></span>
+                            </div>
+                            <span>Varikoli, Puthencruz </span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center mb-4">
+                            <div class="btn-square bg-dark flex-shrink-0 me-3">
+                                <span class="fa fa-phone-alt text-primary"></span>
+                            </div>
+                            <span>+91 9746209497</span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div class="btn-square bg-dark flex-shrink-0 me-3">
+                                <span class="fa fa-envelope-open text-primary"></span>
+                            </div>
+                            <span>mrpata@gmail.com</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Relief Center Content End -->
+    <!-- Contact End -->
 
     <!-- Footer Start -->
     <div class="container-fluid bg-secondary text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
@@ -165,7 +127,7 @@
                         <div class="btn-square bg-dark flex-shrink-0 me-3">
                             <span class="fa fa-map-marker-alt text-primary"></span>
                         </div>
-                        <span>Varikoli, Puthencruz, Kerala</span>
+                        <span>Varkoli, Puthencruz (Latitude: -9.96683, Longitude: 76.2892)</span>
                     </div>
                     <div class="d-flex align-items-center mb-2">
                         <div class="btn-square bg-dark flex-shrink-0 me-3">
@@ -211,58 +173,13 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src='{% static "lib/wow/wow.min.js"%}'></script>
-    <script src='{% static "lib/easing/easing.min.js"%}'></script>
+    <script src='{% static "lib/wow/wow.min.js" %}'></script>
+    <script src='{% static "lib/easing/easing.min.js" %}'></script>
     <script src='{% static "lib/waypoints/waypoints.min.js" %}'></script>
     <script src='{% static "lib/owlcarousel/owl.carousel.min.js" %}'></script>
 
-    <!-- Leaflet JS for Map -->
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-
     <!-- Template Javascript -->
-    <script src='{% static "js/main.js"%}'></script>
-
-    <!-- Custom Script for Map -->
-    <script>
-        // Initialize the map
-        var map = L.map('map').setView([51.505, -0.09], 13);
-
-        // Add a tile layer (you can use any tile layer you prefer)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        // Example data for relief centers
-        var reliefCenters = [
-            {
-                name: "Relief Center 1",
-                location: [51.5, -0.09],
-                details: "Water, Food, Medical Supplies",
-                address: "123 Main St, London"
-            },
-            {
-                name: "Relief Center 2",
-                location: [51.51, -0.1],
-                details: "Shelter, Blankets, Clothing",
-                address: "456 Elm St, London"
-            },
-            {
-                name: "Relief Center 3",
-                location: [51.49, -0.08],
-                details: "Food, Water, Hygiene Kits",
-                address: "789 Oak St, London"
-            }
-        ];
-
-        // Add markers for each relief center
-        reliefCenters.forEach(function (center) {
-            var marker = L.marker(center.location).addTo(map);
-            marker.bindPopup(`
-                <strong>${center.name}</strong><br>
-                ${center.details}<br>
-                <em>${center.address}</em>
-            `);
-        });
-    </script>
+    <script src='{% static "js/main.js" %}'></script>
 </body>
+
 </html>
