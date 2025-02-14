@@ -7,8 +7,8 @@ def error404(request):
 def about(request):
     return render(request,'about.html')
 
-def contact(request):
-    return render(request,'contact.html')
+def report(request):
+    return render(request,'report.html')
 
 def index(request):
     return render(request,'index.html')
@@ -16,8 +16,8 @@ def index(request):
 def open(request):
     return render(request,'open.html')
 
-def price(request):
-    return render(request,'price.html')
+def relief_centers(request):
+    return render(request,'relief_centers.html')
 
 def service(request):
     return render(request,'service.html')
