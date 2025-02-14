@@ -37,6 +37,9 @@ def notifications(request):
 def logistics(request):
     return render(request,'logistics.html')
 
+def contact_us(request):
+    return render(request,'contact_us.html')
+
 
 from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
