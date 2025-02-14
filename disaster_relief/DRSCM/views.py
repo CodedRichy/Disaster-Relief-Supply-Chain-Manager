@@ -16,6 +16,9 @@ def report(request):
 def login(request):
     return render(request,'login.html')
 
+def our_services(request):
+    return render(request,'our_services.html')
+
 def index(request):
     return render(request,'index.html')
 
