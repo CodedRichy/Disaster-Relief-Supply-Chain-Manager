@@ -1,4 +1,4 @@
-"""
+*"""
 URL configuration for disaster_relief project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
