@@ -53,7 +53,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="index" class="nav-item nav-link">Home</a>
+                <a href="index" class="nav-item nav-link">Index</a>
                 <a href="about" class="nav-item nav-link">About</a>
                 <a href="relief_centers" class="nav-item nav-link">Relief Centers</a>
                 <div class="nav-item dropdown">
@@ -78,7 +78,7 @@
             <h1 class="display-3 text-white text-uppercase mb-3 animated slideInDown">Report</h1>
             <nav aria-label="breadcrumb animated slideInDown">
                 <ol class="breadcrumb justify-content-center text-uppercase mb-0">
-                    <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-white" href="#">Index</a></li>
                     <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
                     <li class="breadcrumb-item text-primary active" aria-current="page">Contact</li>
                 </ol>
@@ -100,7 +100,7 @@
                             {% csrf_token %}
                             <div class="mb-3">
                                 <label for="name" class="form-label">Disaster</label>
-                                <input type="text" class="form-control" id="name" placeholder="Enter disaster type">
+                                <input type="text" class="form-control" id="name" placeholder="Enter disaster type" name="name">
                             </div>
                             <div class="mb-3">
                                 <label for="map" class="form-label">Select Location on Map</label>
@@ -108,11 +108,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="location" class="form-label">Location</label>
-                                <input type="text" class="form-control" id="location" placeholder="Enter location">
+                                <input type="text" class="form-control" id="location" placeholder="Enter location" name="location">
                             </div>
                             <div class="mb-3">
                                 <label for="severity" class="form-label">Severity Level</label>
-                                <select class="form-control" id="severity">
+                                <select class="form-control" id="severity" name="severity">
                                     <option>Low</option>
                                     <option>Moderate</option>
                                     <option>High</option>
@@ -121,11 +121,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
-                                <textarea class="form-control" id="description" rows="4" placeholder="Describe the disaster"></textarea>
+                                <textarea class="form-control" id="description" rows="4" placeholder="Describe the disaster" name="description"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="reported_at" class="form-label">Date & Time</label>
-                                <input type="datetime-local" class="form-control" id="reported_at">
+                                <input type="datetime-local" class="form-control" id="reported_at" name="reported_at">
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Submit Report</button>
                         </form>

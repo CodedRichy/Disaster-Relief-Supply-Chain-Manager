@@ -38,11 +38,10 @@ def add_disaster_details(request):
             location = request.POST.get('location')
             severity = request.POST.get('severity')
             description = request.POST.get('description')
-            status = request.POST.get('status')
             reported_at = request.POST.get('reported_at')
 
             # Validate required fields
-            if not all([name, location, severity, description, status, reported_at]):
+            if not all([name, location, severity, description, reported_at]):
                 raise ValidationError("All fields are required.")
 
             # Create and save the Disaster object
@@ -51,7 +50,6 @@ def add_disaster_details(request):
                 location=location,
                 severity=severity,
                 description=description,
-                status=status,
                 reported_at=reported_at
             )
             data.save()
