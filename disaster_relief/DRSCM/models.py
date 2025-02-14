@@ -30,7 +30,6 @@ class Disaster(models.Model):
     def __str__(self):
         return f"{self.name} - {self.location}"
 
-
 class ReliefCenter(models.Model):
     name = models.CharField(max_length=200)
     location = models.CharField(max_length=255)
@@ -39,7 +38,6 @@ class ReliefCenter(models.Model):
 
     def __str__(self):
         return self.name
-
 
 class SupplyRequest(models.Model):
     disaster = models.ForeignKey(Disaster, on_delete=models.CASCADE)
@@ -51,12 +49,10 @@ class SupplyRequest(models.Model):
         ('fulfilled', 'Fulfilled'),
         ('in_progress', 'In Progress')
     ], default='pending')
-
     requested_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.item_name} - {self.relief_center.name} ({self.status})"
-
 
 class Logistics(models.Model):
     supply_request = models.ForeignKey(SupplyRequest, on_delete=models.CASCADE)
@@ -73,7 +69,6 @@ class Logistics(models.Model):
     def __str__(self):
         return f"{self.vehicle_number} - {self.status}"
 
-
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     message = models.TextField()
@@ -86,4 +81,4 @@ class Notification(models.Model):
     is_read = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.notification_type} - {self.status}"
+        return f"{self.notification_type} - {self.message[:50]}"

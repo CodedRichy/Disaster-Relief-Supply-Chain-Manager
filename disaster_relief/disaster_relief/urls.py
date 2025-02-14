@@ -20,15 +20,20 @@ from DRSCM import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.index),
-    path('error404',views.error404),
-    path('about',views.about),
-    path('report',views.report),
-    path('index',views.index),
-    path('admin_dashboard',views.admin_dashboard),
-    path('relief_centers',views.relief_centers),
-    path('notifications',views.notifications),
-    path('logistics',views.logistics),
-    path('add_disaster_details',views.add_disaster_details),
-    path('login',views.login),
+    path('', views.index, name='index'),
+    path('error404', views.error404, name='error404'),
+    path('about', views.about, name='about'),
+    path('report', views.report, name='report'),
+    path('index', views.index, name='index'),
+    path('admin_dashboard', views.admin_dashboard, name='admin_dashboard'),
+    path('relief_centers', views.relief_centers, name='relief_centers'),
+    path('notifications', views.notifications, name='notifications'),
+    path('logistics', views.logistics, name='logistics'),
+    path('add_disaster_details', views.add_disaster_details, name='add_disaster_details'),
+    path('login', views.login_view, name='login'),  # Updated to avoid conflict with Django's login function
+
+    # New URLs for additional functionality
+    path('register', views.register_user, name='register'),  # User registration
+    path('add_relief_center', views.add_relief_center, name='add_relief_center'),  # Add relief center
+    path('create_supply_request', views.create_supply_request, name='create_supply_request'),  # Create supply request
 ]

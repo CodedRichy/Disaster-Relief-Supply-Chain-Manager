@@ -99,15 +99,42 @@
                     </div>
                 </div>
 
+                <!-- Form to Add Relief Center -->
+                <div class="col-lg-6">
+                    <div class="bg-secondary h-100 p-5">
+                        <h2 class="text-uppercase mb-4">Add Relief Center</h2>
+                        <form method="POST" action="add_relief_center">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Location</label>
+                                <input type="text" class="form-control" id="location" name="location" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="capacity" class="form-label">Capacity</label>
+                                <input type="number" class="form-control" id="capacity" name="capacity" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="available_resources" class="form-label">Available Resources</label>
+                                <textarea class="form-control" id="available_resources" name="available_resources" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+
                 <!-- Map Section -->
                 <div class="col-lg-6">
                     <div class="h-100">
-                        <div id="map" style="height: 400px;"></div>
+                        <div id="map" style="height: 100%;"></div>
                     </div>
                 </div>
 
                 <!-- Supplies Table -->
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div class="bg-secondary h-100 d-flex flex-column justify-content-center p-5">
                         <p class="d-inline-flex bg-dark text-primary py-1 px-4 me-auto">Supplies Table</p>
                         <h1 class="text-uppercase mb-4">Pending & Approved Requests</h1>
@@ -123,28 +150,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- Example Data -->
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Water Bottles</td>
-                                        <td>100</td>
-                                        <td>Pending</td>
-                                        <td>2023-10-01</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Food Packets</td>
-                                        <td>50</td>
-                                        <td>Approved</td>
-                                        <td>2023-10-02</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Medical Kits</td>
-                                        <td>20</td>
-                                        <td>Pending</td>
-                                        <td>2023-10-03</td>
-                                    </tr>
+                                    <!-- No dummy entries -->
                                 </tbody>
                             </table>
                         </div>
@@ -245,26 +251,16 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Example data for relief centers
+        // Fetch relief centers from the backend and add markers
         var reliefCenters = [
+            {% for center in relief_centers %}
             {
-                name: "Relief Center 1",
-                location: [51.5, -0.09],
-                details: "Water, Food, Medical Supplies",
-                address: "123 Main St, London"
+                name: "{{ center.name }}",
+                location: [{{ center.location }}],  // Assuming location is stored as latitude,longitude
+                details: "{{ center.available_resources }}",
+                address: "{{ center.location }}"  // Assuming location is the address
             },
-            {
-                name: "Relief Center 2",
-                location: [51.51, -0.1],
-                details: "Shelter, Blankets, Clothing",
-                address: "456 Elm St, London"
-            },
-            {
-                name: "Relief Center 3",
-                location: [51.49, -0.08],
-                details: "Food, Water, Hygiene Kits",
-                address: "789 Oak St, London"
-            }
+            {% endfor %}
         ];
 
         // Add markers for each relief center
