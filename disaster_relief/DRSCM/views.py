@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 def error404(request):
-    return render(request,'error404.html')
+    return render(request,'pagenotfound.html')
 
 def about(request):
     return render(request,'about.html')
