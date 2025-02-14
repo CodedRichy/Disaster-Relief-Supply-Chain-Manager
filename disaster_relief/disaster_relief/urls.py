@@ -1,4 +1,4 @@
-*"""
+"""
 URL configuration for disaster_relief project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -21,7 +21,7 @@ from DRSCM import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index),
-    path('error404',404.html),
+    path('error404',error404.html),
     path('about',about.html),
     path('contact',contact.html),
     path('index',index.html),
