@@ -32,6 +32,12 @@
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 300px;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -100,7 +106,7 @@
                             {% csrf_token %}
                             <div class="mb-3">
                                 <label for="name" class="form-label">Disaster</label>
-                                <input type="text" class="form-control" id="name" placeholder="Enter disaster type" name="name">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter disaster type" required>
                             </div>
                             <div class="mb-3">
                                 <label for="map" class="form-label">Select Location on Map</label>
@@ -108,11 +114,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="location" class="form-label">Location</label>
-                                <input type="text" class="form-control" id="location" placeholder="Enter location" name="location">
+                                <input type="text" class="form-control" id="location" name="location" placeholder="Enter location" required>
                             </div>
                             <div class="mb-3">
                                 <label for="severity" class="form-label">Severity Level</label>
-                                <select class="form-control" id="severity" name="severity">
+                                <select class="form-control" id="severity" name="severity" required>
                                     <option>Low</option>
                                     <option>Moderate</option>
                                     <option>High</option>
@@ -121,12 +127,26 @@
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
-                                <textarea class="form-control" id="description" rows="4" placeholder="Describe the disaster" name="description"></textarea>
+                                <textarea class="form-control" id="description" name="description" rows="4" placeholder="Describe the disaster" required></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="reported_at" class="form-label">Date & Time</label>
-                                <input type="datetime-local" class="form-control" id="reported_at" name="reported_at">
+                                <input type="datetime-local" class="form-control" id="reported_at" name="reported_at" required>
                             </div>
+                            <!-- Status Field (Visible only to Admin) -->
+                            {% if request.user.profile.role == 'admin' %}
+                            <div class="mb-3">
+                                <label for="status" class="form-label">Status</label>
+                                <select class="form-control" id="status" name="status">
+                                    <option value="active">Active</option>
+                                    <option value="resolved">Resolved</option>
+                                    <option value="pending">Pending</option>
+                                </select>
+                            </div>
+                            {% else %}
+                            <!-- Hidden Field for Non-Admin Users (Default Status: Active) -->
+                            <input type="hidden" name="status" value="active">
+                            {% endif %}
                             <button type="submit" class="btn btn-primary w-100">Submit Report</button>
                         </form>
                     </div>
@@ -248,11 +268,6 @@
         marker.setLatLng(latLng);
     });
     </script>
-
-    #map {
-    height: 300px;
-    width: 100%;
-}
 
     <!-- Template Javascript -->
     <script src='{% static "js/main.js" %}'></script>
