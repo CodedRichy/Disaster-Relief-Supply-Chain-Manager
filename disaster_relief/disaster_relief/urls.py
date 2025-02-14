@@ -30,4 +30,5 @@ urlpatterns = [
     path('notifications',views.notifications),
     path('logistics',views.logistics),
     path('add_disaster_details',views.add_disaster_details),
+    path('login',views.login),
 ]
