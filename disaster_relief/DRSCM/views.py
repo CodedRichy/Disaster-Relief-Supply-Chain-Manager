@@ -30,6 +30,10 @@ def logistics(request):
     return render(request,'logistics.html')
 
 
+from django.shortcuts import render, redirect
+from django.core.exceptions import ValidationError
+from .models import Disaster
+
 def add_disaster_details(request):
     if request.method == 'POST':
         try:
@@ -39,6 +43,13 @@ def add_disaster_details(request):
             severity = request.POST.get('severity')
             description = request.POST.get('description')
             reported_at = request.POST.get('reported_at')
+
+            # Set default status to 'active'
+            status = 'active'
+
+            # If the user is an admin, allow them to modify the status
+            if request.user.is_staff or request.user.is_superuser:
+                status = request.POST.get('status', 'active')
 
             # Validate required fields
             if not all([name, location, severity, description, reported_at]):
@@ -50,12 +61,13 @@ def add_disaster_details(request):
                 location=location,
                 severity=severity,
                 description=description,
+                status=status,
                 reported_at=reported_at
             )
             data.save()
 
             # Redirect to a success page or home page
-            return redirect('index')  # Replace 'index' with the name of your home URL
+            return redirect('index.html')  # Replace 'index' with the name of your home URL
 
         except ValidationError as e:
             # Handle validation errors

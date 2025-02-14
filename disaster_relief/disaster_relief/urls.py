@@ -29,5 +29,5 @@ urlpatterns = [
     path('relief_centers',views.relief_centers),
     path('notifications',views.notifications),
     path('logistics',views.logistics),
-    path('add_disaster_details',views.add_disaster_details)
+    path('add_disaster_details',views.add_disaster_details),
 ]

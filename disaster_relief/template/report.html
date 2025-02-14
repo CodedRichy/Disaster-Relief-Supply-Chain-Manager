@@ -46,14 +46,14 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-secondary navbar-dark sticky-top py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
         <a href="index" class="navbar-brand ms-4 ms-lg-0">
-            <h1 class="mb-0 text-primary text-uppercase"><i class="fa fa-life-ring me-3"></i>RELIEFHUB</h1>
+            <h1 class="mb-0 text-primary text-uppercase"><i class="fa fa-cut me-3"></i>HairCut</h1>
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="index" class="nav-item nav-link">Index</a>
+                <a href="index" class="nav-item nav-link">Home</a>
                 <a href="about" class="nav-item nav-link">About</a>
                 <a href="relief_centers" class="nav-item nav-link">Relief Centers</a>
                 <div class="nav-item dropdown">
@@ -61,13 +61,13 @@
                     <div class="dropdown-menu m-0">
                         <a href="notifications" class="dropdown-item">Notifications</a>
                         <a href="admin_dashboard" class="dropdown-item">Trash Page</a>
-                        <a href="logistics" class="dropdown-item">Logistics</a>
+                        <a href="logistics" class="dropdown-item">Testimonial</a>
                         <a href="pagenotfound" class="dropdown-item">Error Page</a>
                     </div>
                 </div>
                 <a href="report" class="nav-item nav-link active">Report</a>
             </div>
-            <a href="" class="btn btn-primary rounded-0 py-2 px-lg-4 d-none d-lg-block">Login<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="" class="btn btn-primary rounded-0 py-2 px-lg-4 d-none d-lg-block">Appointment<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
     <!-- Navbar End -->
@@ -146,19 +146,19 @@
                         <div class="btn-square bg-dark flex-shrink-0 me-3">
                             <span class="fa fa-map-marker-alt text-primary"></span>
                         </div>
-                        <span>Varikoli, Puthencruz, Kerala</span>
+                        <span>123 Street, New York, USA</span>
                     </div>
                     <div class="d-flex align-items-center mb-2">
                         <div class="btn-square bg-dark flex-shrink-0 me-3">
                             <span class="fa fa-phone-alt text-primary"></span>
                         </div>
-                        <span>+91 9746209497</span>
+                        <span>+012 345 67890</span>
                     </div>
                     <div class="d-flex align-items-center">
                         <div class="btn-square bg-dark flex-shrink-0 me-3">
                             <span class="fa fa-envelope-open text-primary"></span>
                         </div>
-                        <span>mrpata@gmail.com</span>
+                        <span>info@example.com</span>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
@@ -188,11 +188,11 @@
             <div class="copyright">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a class="border-bottom" href="#">Reliefhub</a>, All Right Reserved.
+                        &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
                     </div>
                     <div class="col-md-6 text-center text-md-end">
                         <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                        Designed By <a class="border-bottom" href="https://github.com/CodedRichy">Rishi Praseeth</a>
+                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
                     </div>
                 </div>
             </div>
@@ -248,6 +248,11 @@
         marker.setLatLng(latLng);
     });
     </script>
+
+    #map {
+    height: 300px;
+    width: 100%;
+}
 
     <!-- Template Javascript -->
     <script src='{% static "js/main.js" %}'></script>
