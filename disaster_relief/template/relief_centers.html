@@ -246,10 +246,37 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Add a marker
-        L.marker([51.5, -0.09]).addTo(map)
-            .bindPopup('Relief Center Location')
-            .openPopup();
+        // Example data for relief centers
+        var reliefCenters = [
+            {
+                name: "Relief Center 1",
+                location: [51.5, -0.09],
+                details: "Water, Food, Medical Supplies",
+                address: "123 Main St, London"
+            },
+            {
+                name: "Relief Center 2",
+                location: [51.51, -0.1],
+                details: "Shelter, Blankets, Clothing",
+                address: "456 Elm St, London"
+            },
+            {
+                name: "Relief Center 3",
+                location: [51.49, -0.08],
+                details: "Food, Water, Hygiene Kits",
+                address: "789 Oak St, London"
+            }
+        ];
+
+        // Add markers for each relief center
+        reliefCenters.forEach(function (center) {
+            var marker = L.marker(center.location).addTo(map);
+            marker.bindPopup(`
+                <strong>${center.name}</strong><br>
+                ${center.details}<br>
+                <em>${center.address}</em>
+            `);
+        });
     </script>
 </body>
 </html>
