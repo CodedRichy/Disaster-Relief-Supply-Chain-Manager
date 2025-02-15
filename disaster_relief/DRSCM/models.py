@@ -105,4 +105,5 @@ class Notification(models.Model):
     is_read = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.notification_type} - {self.status}"
+        return f"{self.notification_type} - {self.message}"
+

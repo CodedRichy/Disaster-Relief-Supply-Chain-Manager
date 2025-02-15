@@ -37,4 +37,5 @@ urlpatterns = [
     path('add_relief_center', views.add_relief_center, name='add_relief_center'),  # Add relief center
     path('create_supply_request', views.create_supply_request, name='create_supply_request'),  # Create supply request
     path('create_logistics', views.create_logistics, name='create_logistics'),
+    path('mark_notification_as_read', views.mark_notification_as_read, name='mark_notification_as_read'),
 ]

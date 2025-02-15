@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from datetime import datetime
 # Create your views here.
 def error404(request):
-    return render(request, 'pagenotfound.html')
+    return render(request, 'map.html')
 
 def about(request):
     return render(request, 'about.html')
@@ -68,7 +68,7 @@ def add_disaster_details(request):
                 raise ValidationError("All fields are required.")
 
             # Create and save the Disaster object
-            data = Disaster.objects.create(
+            disaster = Disaster.objects.create(
                 name=name,
                 location=location,
                 severity=severity,
@@ -76,10 +76,17 @@ def add_disaster_details(request):
                 status=status,
                 reported_at=reported_at
             )
-            data.save()
+            disaster.save()
+
+            # Create a notification for the new disaster
+            Notification.objects.create(
+                user=request.user,  # Assuming the user is logged in
+                message=f"New Disaster '{name}' reported at {location} with severity {severity}.",
+                notification_type='disaster'
+            )
 
             # Redirect to a success page or home page
-            return redirect('index.html')  # Replace 'index' with the name of your home URL
+            return redirect('index')  # Replace 'index' with the name of your home URL
 
         except ValidationError as e:
             # Handle validation errors
@@ -210,9 +217,6 @@ def create_supply_request(request):
 def create_logistics(request):
     if request.method == 'POST':
         try:
-            # Debugging: Print all POST data
-            print("POST Data:", request.POST)
-
             # Fetch data from the form
             vehicle_number = request.POST.get('vehicle_number')
             driver_name = request.POST.get('driver_name')
@@ -223,15 +227,6 @@ def create_logistics(request):
             start_lng = request.POST.get('start_lng')
             end_lat = request.POST.get('end_lat')
             end_lng = request.POST.get('end_lng')
-
-            # Debugging: Print individual fields
-            print(f"Vehicle Number: {vehicle_number}")
-            print(f"Driver Name: {driver_name}")
-            print(f"Departure Time: {departure_time_str}")
-            print(f"Estimated Arrival: {estimated_arrival_str}")
-            print(f"Status: {status}")
-            print(f"Start Lat: {start_lat}, Start Lng: {start_lng}")
-            print(f"End Lat: {end_lat}, End Lng: {end_lng}")
 
             # Validate required fields
             if not all([vehicle_number, driver_name, departure_time_str, estimated_arrival_str, start_lat, start_lng, end_lat, end_lng]):
@@ -260,22 +255,41 @@ def create_logistics(request):
                 end_lng=end_lng
             )
 
-            # Debugging: Print success message
-            print("Logistics object saved successfully!")
+            # Create a notification for the new logistics entry
+            Notification.objects.create(
+                user=request.user,  # Assuming the user is logged in
+                message=f"New Logistics entry for vehicle '{vehicle_number}' has been created.",
+                notification_type='logistics'
+            )
 
             # Redirect to a success page or home page
             return redirect('index')
 
         except ValidationError as e:
             # Handle validation errors
-            print(f"Validation Error: {e}")
             return render(request, 'logistics.html', {'error': str(e)})
 
         except Exception as e:
             # Handle other exceptions
-            print(f"Exception: {e}")
             return render(request, 'logistics.html', {'error': 'An error occurred. Please try again.'})
 
     else:
         # Render the form for GET requests
         return render(request, 'logistics.html')
+
+def notifications(request):
+    # Fetch all notifications for the logged-in user
+    notifications = Notification.objects.filter(user=request.user, is_read=False).order_by('-timestamp')
+    return render(request, 'notifications.html', {'notifications': notifications})
+
+from django.http import JsonResponse
+
+def mark_notification_as_read(request, notification_id):
+    try:
+        notification = Notification.objects.get(id=notification_id, user=request.user)
+        notification.is_read = True
+        notification.save()
+        return JsonResponse({'status': 'success'})
+    except Notification.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Notification not found'}, status=404)
+
