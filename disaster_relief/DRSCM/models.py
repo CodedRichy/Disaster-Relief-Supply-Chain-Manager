@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+from .models import *
 
 # Create your models here.
 class UserProfile(models.Model):
@@ -58,20 +60,37 @@ class SupplyRequest(models.Model):
         return f"{self.item_name} - {self.relief_center.name} ({self.status})"
 
 
+from django.db import models
+from django.utils import timezone
+
 class Logistics(models.Model):
-    supply_request = models.ForeignKey(SupplyRequest, on_delete=models.CASCADE)
     driver_name = models.CharField(max_length=200)
     vehicle_number = models.CharField(max_length=50)
-    departure_time = models.DateTimeField()
-    estimated_arrival = models.DateTimeField()
-    status = models.CharField(max_length=50, choices=[
-        ('en_route', 'En Route'),
-        ('delivered', 'Delivered'),
-        ('delayed', 'Delayed')
-    ], default='en_route')
+    departure_time = models.DateTimeField(default=timezone.now)
+    estimated_arrival = models.DateTimeField(default=timezone.now)
+    status = models.CharField(
+        max_length=50,
+        choices=[
+            ('en_route', 'En Route'),
+            ('delivered', 'Delivered'),
+            ('delayed', 'Delayed')
+        ],
+        default='en_route'
+    )
+    start_lat = models.FloatField()  # Starting latitude
+    start_lng = models.FloatField()  # Starting longitude
+    end_lat = models.FloatField()    # Ending latitude
+    end_lng = models.FloatField()    # Ending longitude
+
+    def save(self, *args, **kwargs):
+        """Ensure estimated_arrival is timezone-aware before saving."""
+        if self.estimated_arrival and timezone.is_naive(self.estimated_arrival):
+            self.estimated_arrival = timezone.make_aware(self.estimated_arrival)
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.vehicle_number} - {self.status}"
+        return f"Logistics for {self.vehicle_number} by {self.driver_name}"
+
 
 
 class Notification(models.Model):

@@ -4,20 +4,16 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.core.exceptions import ValidationError
-
-
+from datetime import datetime
 # Create your views here.
 def error404(request):
     return render(request, 'pagenotfound.html')
 
-
 def about(request):
     return render(request, 'about.html')
 
-
 def report(request):
     return render(request, 'report.html')
-
 
 def login_view(request):  # Renamed to avoid conflict with Django's login function
     if request.method == 'POST':
@@ -31,14 +27,11 @@ def login_view(request):  # Renamed to avoid conflict with Django's login functi
             messages.error(request, 'Invalid username or password.')
     return render(request, 'login.html')
 
-
 def index(request):
     return render(request, 'index.html')
 
-
 def admin_dashboard(request):
     return render(request, 'admin_dashboard.html')
-
 
 def relief_centers(request):
     # Fetch all relief centers from the database
@@ -47,14 +40,11 @@ def relief_centers(request):
     # Pass the relief centers to the template
     return render(request, 'relief_centers.html', {'relief_centers': relief_centers})
 
-
 def notifications(request):
     return render(request, 'notifications.html')
 
-
 def logistics(request):
     return render(request, 'logistics.html')
-
 
 def add_disaster_details(request):
     if request.method == 'POST':
@@ -103,7 +93,6 @@ def add_disaster_details(request):
         # Render the form for GET requests
         return render(request, 'report.html')
 
-
 # New Functions
 
 def register_user(request):
@@ -145,7 +134,6 @@ def register_user(request):
         # Render the form for GET requests
         return render(request, 'register.html')
 
-
 def add_relief_center(request):
     if request.method == 'POST':
         try:
@@ -168,6 +156,11 @@ def add_relief_center(request):
             )
             relief_center.save()
 
+            # Create a notification
+            Notification.objects.create(
+            message=f"New Relief Center '{name}' has been added at {location}."
+            )
+
             # Redirect to a success page or home page
             return redirect('index')  # Replace 'index' with the name of your home URL
 
@@ -182,7 +175,6 @@ def add_relief_center(request):
     else:
         # Render the form for GET requests
         return render(request, 'add_relief_center.html')
-
 
 def create_supply_request(request):
     if request.method == 'POST':
@@ -215,10 +207,75 @@ def create_supply_request(request):
             # Handle validation errors
             return render(request, 'create_supply_request.html', {'error': str(e)})
 
+def create_logistics(request):
+    if request.method == 'POST':
+        try:
+            # Debugging: Print all POST data
+            print("POST Data:", request.POST)
+
+            # Fetch data from the form
+            vehicle_number = request.POST.get('vehicle_number')
+            driver_name = request.POST.get('driver_name')
+            departure_time_str = request.POST.get('departure_time')
+            estimated_arrival_str = request.POST.get('estimated_arrival')
+            status = request.POST.get('status', 'en_route')
+            start_lat = request.POST.get('start_lat')
+            start_lng = request.POST.get('start_lng')
+            end_lat = request.POST.get('end_lat')
+            end_lng = request.POST.get('end_lng')
+
+            # Debugging: Print individual fields
+            print(f"Vehicle Number: {vehicle_number}")
+            print(f"Driver Name: {driver_name}")
+            print(f"Departure Time: {departure_time_str}")
+            print(f"Estimated Arrival: {estimated_arrival_str}")
+            print(f"Status: {status}")
+            print(f"Start Lat: {start_lat}, Start Lng: {start_lng}")
+            print(f"End Lat: {end_lat}, End Lng: {end_lng}")
+
+            # Validate required fields
+            if not all([vehicle_number, driver_name, departure_time_str, estimated_arrival_str, start_lat, start_lng, end_lat, end_lng]):
+                raise ValidationError("All fields are required.")
+
+            # Convert datetime strings to timezone-aware datetime objects
+            departure_time = timezone.make_aware(datetime.fromisoformat(departure_time_str))
+            estimated_arrival = timezone.make_aware(datetime.fromisoformat(estimated_arrival_str))
+
+            # Convert latitude and longitude to float
+            start_lat = float(start_lat)
+            start_lng = float(start_lng)
+            end_lat = float(end_lat)
+            end_lng = float(end_lng)
+
+            # Create and save the Logistics object
+            logistics = Logistics.objects.create(
+                vehicle_number=vehicle_number,
+                driver_name=driver_name,
+                departure_time=departure_time,
+                estimated_arrival=estimated_arrival,
+                status=status,
+                start_lat=start_lat,
+                start_lng=start_lng,
+                end_lat=end_lat,
+                end_lng=end_lng
+            )
+
+            # Debugging: Print success message
+            print("Logistics object saved successfully!")
+
+            # Redirect to a success page or home page
+            return redirect('index')
+
+        except ValidationError as e:
+            # Handle validation errors
+            print(f"Validation Error: {e}")
+            return render(request, 'logistics.html', {'error': str(e)})
+
         except Exception as e:
             # Handle other exceptions
-            return render(request, 'create_supply_request.html', {'error': 'An error occurred. Please try again.'})
+            print(f"Exception: {e}")
+            return render(request, 'logistics.html', {'error': 'An error occurred. Please try again.'})
 
     else:
         # Render the form for GET requests
-        return render(request, 'create_supply_request.html')
+        return render(request, 'logistics.html')

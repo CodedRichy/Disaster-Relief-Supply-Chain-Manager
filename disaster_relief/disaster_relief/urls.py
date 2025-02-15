@@ -36,4 +36,5 @@ urlpatterns = [
     path('register', views.register_user, name='register'),  # User registration
     path('add_relief_center', views.add_relief_center, name='add_relief_center'),  # Add relief center
     path('create_supply_request', views.create_supply_request, name='create_supply_request'),  # Create supply request
+    path('create_logistics', views.create_logistics, name='create_logistics'),
 ]

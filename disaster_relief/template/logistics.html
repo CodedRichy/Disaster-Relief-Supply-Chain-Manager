@@ -29,6 +29,17 @@
 
     <!-- Template Stylesheet -->
     <link href='{% static "css/style.css"%}' rel="stylesheet">
+
+    <!-- Leaflet.js CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -39,7 +50,6 @@
         </div>
     </div>
     <!-- Spinner End -->
-
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-secondary navbar-dark sticky-top py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
@@ -70,51 +80,86 @@
     </nav>
     <!-- Navbar End -->
 
-
     <!-- Page Header Start -->
     <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center py-5">
-            <h1 class="display-3 text-white text-uppercase mb-3 animated slideInDown">Testimonial</h1>
+            <h1 class="display-3 text-white text-uppercase mb-3 animated slideInDown">Logistics</h1>
             <nav aria-label="breadcrumb animated slideInDown">
                 <ol class="breadcrumb justify-content-center text-uppercase mb-0">
                     <li class="breadcrumb-item"><a class="text-white" href="index">Index</a></li>
                     <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
-                    <li class="breadcrumb-item text-primary active" aria-current="page">Testimonial</li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Logistics</li>
                 </ol>
             </nav>
         </div>
     </div>
     <!-- Page Header End -->
 
-
-    <!-- Testimonial Start -->
+    <!-- Logistics Form Start -->
     <div class="container-xxl py-5">
         <div class="container">
             <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
-                <p class="d-inline-block bg-secondary text-primary py-1 px-4">Testimonial</p>
-                <h1 class="text-uppercase">What Our Clients Say!</h1>
+                <p class="d-inline-block bg-secondary text-primary py-1 px-4">Logistics Management</p>
+                <h1 class="text-uppercase">Supply Request Details</h1>
             </div>
-            <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
-                <div class="testimonial-item text-center" data-dot="<img class='img-fluid' src='img/testimonial-1.jpg' alt=''>">
-                    <h4 class="text-uppercase">Client Name</h4>
-                    <p class="text-primary">Profession</p>
-                    <span class="fs-5">Clita clita tempor justo dolor ipsum amet kasd amet duo justo duo duo labore sed sed. Magna ut diam sit et amet stet eos sed clita erat magna elitr erat sit sit erat at rebum justo sea clita.</span>
+            <div class="row g-4">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <form method="POST" action="create_logistics">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="vehicleNumber" name="vehicle_number" placeholder="Vehicle Number">
+                                    <label for="vehicleNumber">Vehicle Number</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="driverName" name="driver_name" placeholder="Driver Name">
+                                    <label for="driverName">Driver Name</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="datetime-local" class="form-control" id="departureTime" name="departure_time">
+                                    <label for="departureTime">Departure Time</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="datetime-local" class="form-control" id="estimatedArrival" name="estimated_arrival">
+                                    <label for="estimatedArrival">Estimated Arrival</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <select class="form-control" id="status" name="status">
+                                        <option value="en_route">En Route</option>
+                                        <option value="delivered">Delivered</option>
+                                        <option value="delayed">Delayed</option>
+                                    </select>
+                                    <label for="status">Status</label>
+                                </div>
+                            </div>
+                            <!-- Hidden fields for coordinates -->
+                            <input type="hidden" id="startLat" name="start_lat">
+                            <input type="hidden" id="startLng" name="start_lng">
+                            <input type="hidden" id="endLat" name="end_lat">
+                            <input type="hidden" id="endLng" name="end_lng">
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" type="submit">Submit</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="testimonial-item text-center" data-dot="<img class='img-fluid' src='img/testimonial-2.jpg' alt=''>">
-                    <h4 class="text-uppercase">Client Name</h4>
-                    <p class="text-primary">Profession</p>
-                    <span class="fs-5">Clita clita tempor justo dolor ipsum amet kasd amet duo justo duo duo labore sed sed. Magna ut diam sit et amet stet eos sed clita erat magna elitr erat sit sit erat at rebum justo sea clita.</span>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <!-- Map Container -->
+                    <div id="map"></div>
                 </div>
-                <div class="testimonial-item text-center" data-dot="<img class='img-fluid' src='img/testimonial-3.jpg' alt=''>">
-                    <h4 class="text-uppercase">Client Name</h4>
-                    <p class="text-primary">Profession</p>
-                    <span class="fs-5">Clita clita tempor justo dolor ipsum amet kasd amet duo justo duo duo labore sed sed. Magna ut diam sit et amet stet eos sed clita erat magna elitr erat sit sit erat at rebum justo sea clita.</span>
-                </div>
-            </div>      
+            </div>
         </div>
     </div>
-    <!-- Testimonial End -->
-
+    <!-- Logistics Form End -->
 
     <!-- Footer Start -->
     <div class="container-fluid bg-secondary text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
@@ -157,8 +202,7 @@
                         &copy; <a class="border-bottom" href="#">Reliefhub</a>, All Right Reserved.
                     </div>
                     <div class="col-md-6 text-center text-md-end">
-                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                        Designed By <a class="border-bottom" href="https://github.com/CodedRichy">Rishi Preseeth</a>
+                        Designed By <a class="border-bottom" href="https://github.com/CodedRichy">Rishi Praseeth</a>
                     </div>
                 </div>
             </div>
@@ -166,10 +210,8 @@
     </div>
     <!-- Footer End -->
 
-
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -181,6 +223,52 @@
 
     <!-- Template Javascript -->
     <script src='{% static "js/main.js"%}'></script>
-</body>
 
+    <!-- Leaflet.js Map Script -->
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([10.1073, 76.3636], 13); // Centered at Kerala, India
+
+        // Add a tile layer (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Variables to store markers and path
+        let startMarker = null;
+        let endMarker = null;
+        let path = null;
+
+        // Function to handle double-click events
+        map.on('dblclick', function (e) {
+            const { lat, lng } = e.latlng;
+
+            if (!startMarker) {
+                // Place the first marker (starting point)
+                startMarker = L.marker([lat, lng]).addTo(map)
+                    .bindPopup('Starting Point')
+                    .openPopup();
+
+                // Set the starting coordinates in hidden fields
+                document.getElementById('startLat').value = lat;
+                document.getElementById('startLng').value = lng;
+            } else if (!endMarker) {
+                // Place the second marker (ending point)
+                endMarker = L.marker([lat, lng]).addTo(map)
+                    .bindPopup('Ending Point')
+                    .openPopup();
+
+                // Set the ending coordinates in hidden fields
+                document.getElementById('endLat').value = lat;
+                document.getElementById('endLng').value = lng;
+
+                // Draw a line between the two markers
+                path = L.polyline([startMarker.getLatLng(), endMarker.getLatLng()], { color: 'blue' }).addTo(map);
+
+                // Fit the map to show both markers
+                map.fitBounds([startMarker.getLatLng(), endMarker.getLatLng()]);
+            }
+        });
+    </script>
+</body>
 </html>
